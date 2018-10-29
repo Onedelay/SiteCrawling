@@ -1,5 +1,6 @@
 package com.onedelay.sitecrawling.news
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -11,6 +12,8 @@ import android.view.*
 import com.onedelay.sitecrawling.R
 import kotlinx.android.synthetic.main.activity_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
+import org.jsoup.Jsoup
+import java.io.IOException
 
 class NewsActivity : AppCompatActivity() {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
@@ -71,6 +74,9 @@ class NewsActivity : AppCompatActivity() {
             rootView.recyclerView.layoutManager = LinearLayoutManager(context)
             rootView.recyclerView.adapter = adapter
 
+            val task = NewsAsyncTask()
+            task.execute()
+
             return rootView
         }
 
@@ -83,6 +89,30 @@ class NewsActivity : AppCompatActivity() {
                 args.putString(CATEGORY, sectionCategory)
                 fragment.arguments = args
                 return fragment
+            }
+        }
+
+        inner class NewsAsyncTask : AsyncTask<Void, Void, List<NewsItem>>() {
+            private val data = ArrayList<NewsItem>()
+
+            override fun doInBackground(vararg p0: Void?): List<NewsItem> {
+                try {
+                    val doc = Jsoup.connect("https://news.naver.com/").get()
+                    val elements = doc.select("ul.section_list_ranking")
+                    for ((i, element) in elements.withIndex()) {
+                        for ((j, child) in element.children().withIndex()) {
+                            val temp = child.select("a").attr("title")
+                            data.add(NewsItem(categories[i], j + 1, temp, ""))
+                        }
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                return data
+            }
+
+            override fun onPostExecute(result: List<NewsItem>?) {
+                adapter.setItems(result!!)
             }
         }
     }
