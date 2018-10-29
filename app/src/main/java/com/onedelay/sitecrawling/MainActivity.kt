@@ -1,9 +1,12 @@
 package com.onedelay.sitecrawling
 
-import android.support.v7.app.AppCompatActivity
+import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jsoup.Jsoup
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private val adapter = ImageListAdapter()
@@ -15,15 +18,30 @@ class MainActivity : AppCompatActivity() {
         recyclerview.setHasFixedSize(true)
         recyclerview.layoutManager = GridLayoutManager(this, 3)
         recyclerview.adapter = adapter
-        adapter.setItems(listOf(
-                ImageItem("이미지1", "http://pet.chosun.com/images/news/healthchosun_pet_201708/20170831114133_1339_3748_5217.jpg"),
-                ImageItem("이미지2", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=2380"),
-                ImageItem("이미지3", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=2332"),
-                ImageItem("이미지4", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=7992"),
-                ImageItem("이미지5", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=7258"),
-                ImageItem("이미지6", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=7992"),
-                ImageItem("이미지7", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=2332"),
-                ImageItem("이미지8", "http://www.gettyimagesgallery.com/picture-library/image.aspx?id=2380")
-        ))
+
+        val task = JsoupAsyncTask()
+        task.execute()
+    }
+
+    inner class JsoupAsyncTask : AsyncTask<Void, Void, Void>() {
+        private val data = ArrayList<ImageItem>()
+        override fun doInBackground(vararg p0: Void?): Void? {
+            try {
+                val doc = Jsoup.connect("http://www.gettyimagesgallery.com/collections/archive/slim-aarons.aspx").get()
+                val elements = doc.select("div.gallery-item-group.exitemrepeater")
+                for (element in elements) {
+                    data.add(ImageItem(
+                            element.select("div.gallery-item-caption").text().trim() + "\n", // 이미지 제목
+                            element.select("img").attr("abs:src").trim()))              // 이미지 썸네일
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            adapter.setItems(data)
+        }
     }
 }
