@@ -10,13 +10,13 @@ Image source : http://www.gettyimagesgallery.com/collections/archive/slim-aarons
 
 #### 스크린샷
 
-![](screenshots_main.jpg) 
+![](/screenshots_main.jpg) 
 
 <br>
 
 #### 파싱한 방법
 
-Jsoup` 라이브러리를 활용하여 웹페이지의 `html`을 파싱한다.
+`Jsoup` 라이브러리를 활용하여 웹페이지의 `html`을 파싱한다.
 
 - gradle에 `implementation 'org.jsoup:jsoup:1.11.2'` 추가하기
 
