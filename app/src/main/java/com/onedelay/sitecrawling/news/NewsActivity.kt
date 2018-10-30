@@ -21,7 +21,7 @@ class NewsActivity : AppCompatActivity() {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
     companion object {
-        private val categories = listOf("정치", "경제", "사회", "생활/문화", "세계", "과학")
+        val categories = listOf("정치", "경제", "사회", "생활/문화", "세계", "과학")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +48,6 @@ class NewsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
         if (id == R.id.action_settings) {
@@ -66,7 +63,7 @@ class NewsActivity : AppCompatActivity() {
         override fun getCount() = categories.size
     }
 
-    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener {
+    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
         private val adapter = NewsListAdapter(this)
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
@@ -76,7 +73,7 @@ class NewsActivity : AppCompatActivity() {
             rootView.recyclerView.layoutManager = LinearLayoutManager(context)
             rootView.recyclerView.adapter = adapter
 
-            val task = NewsAsyncTask()
+            val task = NewsAsyncTask(arguments!!.getString(CATEGORY), this)
             task.execute()
 
             return rootView
@@ -98,31 +95,39 @@ class NewsActivity : AppCompatActivity() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
         }
 
-        inner class NewsAsyncTask : AsyncTask<Void, Void, List<NewsItem>>() {
-            private val data = ArrayList<NewsItem>()
-
-            override fun doInBackground(vararg p0: Void?): List<NewsItem> {
-                try {
-                    val doc = Jsoup.connect("https://news.naver.com/").get()
-                    val elements = doc.select("ul.section_list_ranking")
-                    for ((i, element) in elements.withIndex()) {
-                        if (categories[i] == arguments!!.getString(CATEGORY)) {
-                            for ((j, child) in element.children().withIndex()) {
-                                val temp = child.select("a").attr("title")
-                                val url = "https://news.naver.com/" + child.select("a").attr("href")
-                                data.add(NewsItem(categories[i], j + 1, temp, url))
-                            }
-                        }
-                    }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                return data
-            }
-
-            override fun onPostExecute(result: List<NewsItem>?) {
-                adapter.setItems(result!!)
-            }
+        override fun onTaskComplete(list: List<NewsItem>) {
+            adapter.setItems(list)
         }
+    }
+}
+
+class NewsAsyncTask(private val category: String, private val listener: OnTaskComplete) : AsyncTask<Void, Void, List<NewsItem>>() {
+
+    interface OnTaskComplete {
+        fun onTaskComplete(list: List<NewsItem>)
+    }
+
+    override fun doInBackground(vararg p0: Void?): List<NewsItem> {
+        val data = ArrayList<NewsItem>()
+        try {
+            val doc = Jsoup.connect("https://news.naver.com/").get()
+            val elements = doc.select("ul.section_list_ranking")
+            for ((i, element) in elements.withIndex()) {
+                if (NewsActivity.categories[i] == category) {
+                    for ((j, child) in element.children().withIndex()) {
+                        val title = child.select("a").attr("title")
+                        val url = "https://news.naver.com/" + child.select("a").attr("href")
+                        data.add(NewsItem(NewsActivity.categories[i], j + 1, title, url))
+                    }
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return data
+    }
+
+    override fun onPostExecute(result: List<NewsItem>?) {
+        listener.onTaskComplete(result!!)
     }
 }
