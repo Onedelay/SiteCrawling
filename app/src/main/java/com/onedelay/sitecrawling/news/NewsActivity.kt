@@ -100,9 +100,11 @@ class NewsActivity : AppCompatActivity() {
                     val doc = Jsoup.connect("https://news.naver.com/").get()
                     val elements = doc.select("ul.section_list_ranking")
                     for ((i, element) in elements.withIndex()) {
-                        for ((j, child) in element.children().withIndex()) {
-                            val temp = child.select("a").attr("title")
-                            data.add(NewsItem(categories[i], j + 1, temp, ""))
+                        if (categories[i] == arguments!!.getString(CATEGORY)) {
+                            for ((j, child) in element.children().withIndex()) {
+                                val temp = child.select("a").attr("title")
+                                data.add(NewsItem(categories[i], j + 1, temp, ""))
+                            }
                         }
                     }
                 } catch (e: IOException) {
