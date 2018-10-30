@@ -1,9 +1,10 @@
-package com.onedelay.sitecrawling
+package com.onedelay.sitecrawling.image
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.onedelay.sitecrawling.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.viewholder_image.view.*
 

@@ -1,9 +1,10 @@
-package com.onedelay.sitecrawling
+package com.onedelay.sitecrawling.image
 
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import com.onedelay.sitecrawling.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jsoup.Jsoup
 import java.io.IOException
