@@ -1,5 +1,7 @@
 package com.onedelay.sitecrawling.news
 
+import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -64,8 +66,8 @@ class NewsActivity : AppCompatActivity() {
         override fun getCount() = categories.size
     }
 
-    class PlaceholderFragment : Fragment() {
-        private val adapter = NewsListAdapter()
+    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener {
+        private val adapter = NewsListAdapter(this)
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
             val rootView = inflater.inflate(R.layout.fragment_news, container, false)
@@ -92,6 +94,10 @@ class NewsActivity : AppCompatActivity() {
             }
         }
 
+        override fun onNewsClick(data: NewsItem?) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
+        }
+
         inner class NewsAsyncTask : AsyncTask<Void, Void, List<NewsItem>>() {
             private val data = ArrayList<NewsItem>()
 
@@ -103,7 +109,8 @@ class NewsActivity : AppCompatActivity() {
                         if (categories[i] == arguments!!.getString(CATEGORY)) {
                             for ((j, child) in element.children().withIndex()) {
                                 val temp = child.select("a").attr("title")
-                                data.add(NewsItem(categories[i], j + 1, temp, ""))
+                                val url = "https://news.naver.com/" + child.select("a").attr("href")
+                                data.add(NewsItem(categories[i], j + 1, temp, url))
                             }
                         }
                     }
