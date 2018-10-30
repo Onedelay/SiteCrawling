@@ -1,6 +1,8 @@
-## Site Crowling Example
+## Site Crawling Example
 
 <br>
+
+### 1. 이미지 목록 불러오기 (MainActivity)
 
 웹사이트에 있는 이미지들을 크롤링하여 앱의 리사이클러뷰에 띄워준다.
 
@@ -37,7 +39,29 @@ Image source : http://www.gettyimagesgallery.com/collections/archive/slim-aarons
 
 #### To do list
 
-- inner class 로 선언한 AsyncTask 클래스 warning 제거
+- ~~inner class 로 선언한 AsyncTask 클래스 warning 제거~~
 - gradle 정리
 - 가능하다면 페이징 구현해보기(왠지 불가능할 것 같긴 하다.)
+
+<br>
+
+<br>
+
+### 2. 네이버 뉴스 (NewsActivity)
+
+네이버 뉴스 페이지 왼쪽 상단에 있는 가장 많이 본 뉴스 리스트를 가져와 보여준다.
+
+클릭시 해당 뉴스기사를 볼 수 있다.
+
+Data source : https://news.naver.com/
+
+<br>
+
+#### 스크린샷
+
+![](/screenshots_news.jpg) 
+
+<br>
+
+
 
