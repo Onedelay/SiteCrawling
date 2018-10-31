@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
-import android.preference.Preference
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -18,8 +16,6 @@ import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
 import kotlinx.android.synthetic.main.activity_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
-import org.jsoup.Jsoup
-import java.io.IOException
 
 class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
@@ -113,7 +109,7 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         override fun getCount() = categories.size
     }
 
-    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NaverNewsAsyncTask.OnTaskComplete {
+    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
         private val adapter = NewsListAdapter(this)
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -127,12 +123,12 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             return rootView
         }
 
-        /* 다음 -> 네이버로 변경시 뷰페이저 0~2 번째 내용이 비어있음 (다음 크롤링 구현이 안되어있기 때문에)
-         * 반대의 경우에는 네이버의 내용이 그대로 보여짐. (프래그먼트에 정보가 유지되는 것 같음. 페이저 어댑터의 내용은 지울 수 없을까?)
-         * 그래서 탭을 옮길 때 마다 새롭게 크롤링을 하도록 구현. 그러나 당연한 버벅거림이 발생 */
+        // 크롤링 시점을 어디에 둬야할 지 모르겠다.
         override fun onResume() {
             super.onResume()
-            val task = NaverNewsAsyncTask(arguments!!.getString(CATEGORY), this)
+            val task =
+                    if (activity!!.getPreferences(Context.MODE_PRIVATE).getString(Constants.SELECTED_PORTAL, Constants.NAVER) == Constants.DAUM) DaumNewsAsyncTask(arguments!!.getString(CATEGORY), this)
+                    else NaverNewsAsyncTask(arguments!!.getString(CATEGORY), this)
             task.execute()
         }
 
@@ -152,39 +148,8 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
         }
 
-        override fun onTaskComplete(list: List<NewsItem>) {
-            adapter.setItems(list)
+        override fun onTaskComplete(list: List<NewsItem>?) {
+            adapter.setItems(list!!)
         }
-    }
-}
-
-class NaverNewsAsyncTask(private val category: String, private val listener: OnTaskComplete) : AsyncTask<Void, Void, List<NewsItem>>() {
-
-    interface OnTaskComplete {
-        fun onTaskComplete(list: List<NewsItem>)
-    }
-
-    override fun doInBackground(vararg p0: Void?): List<NewsItem> {
-        val data = ArrayList<NewsItem>()
-        try {
-            val doc = Jsoup.connect("https://news.naver.com/").get()
-            val elements = doc.select("ul.section_list_ranking")
-            for (element in elements) {
-                if (element.parents()[0].select("h5").text() == category) {
-                    for ((j, child) in element.children().withIndex()) {
-                        val title = child.select("a").attr("title")
-                        val url = "https://news.naver.com/" + child.select("a").attr("href")
-                        data.add(NewsItem(category, j + 1, title, url))
-                    }
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return data
-    }
-
-    override fun onPostExecute(result: List<NewsItem>?) {
-        listener.onTaskComplete(result!!)
     }
 }
