@@ -63,7 +63,7 @@ class NewsActivity : AppCompatActivity() {
         override fun getCount() = categories.size
     }
 
-    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
+    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NaverNewsAsyncTask.OnTaskComplete {
         private val adapter = NewsListAdapter(this)
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
@@ -73,7 +73,7 @@ class NewsActivity : AppCompatActivity() {
             rootView.recyclerView.layoutManager = LinearLayoutManager(context)
             rootView.recyclerView.adapter = adapter
 
-            val task = NewsAsyncTask(arguments!!.getString(CATEGORY), this)
+            val task = NaverNewsAsyncTask(arguments!!.getString(CATEGORY), this)
             task.execute()
 
             return rootView
@@ -101,7 +101,7 @@ class NewsActivity : AppCompatActivity() {
     }
 }
 
-class NewsAsyncTask(private val category: String, private val listener: OnTaskComplete) : AsyncTask<Void, Void, List<NewsItem>>() {
+class NaverNewsAsyncTask(private val category: String, private val listener: OnTaskComplete) : AsyncTask<Void, Void, List<NewsItem>>() {
 
     interface OnTaskComplete {
         fun onTaskComplete(list: List<NewsItem>)
