@@ -20,6 +20,11 @@ class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.
         notifyDataSetChanged()
     }
 
+    fun removeAll() {
+        news.clear()
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = NewsViewHolder.create(parent, listener)
 
     override fun getItemCount() = news.size

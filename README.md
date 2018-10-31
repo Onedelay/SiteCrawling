@@ -62,6 +62,8 @@ Data source : https://news.naver.com/
 ![](/screenshots_news.jpg) 
 
 <br>
+#### To do list
 
-
-
+- fragment 생성 방식 바꾸기
+- NewsActivity static 멤버 제거
+- 다음 뉴스 추가하기
