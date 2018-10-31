@@ -1,9 +1,12 @@
 package com.onedelay.sitecrawling.news
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.preference.Preference
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -11,6 +14,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
+import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
 import kotlinx.android.synthetic.main.activity_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
@@ -20,13 +24,26 @@ import java.io.IOException
 class NewsActivity : AppCompatActivity() {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
+    private lateinit var sharedPref: SharedPreferences
+
+    private lateinit var portal: String
+    private lateinit var categories: List<String>
+
     companion object {
-        val categories = listOf("정치", "경제", "사회", "생활/문화", "세계", "과학")
+        val daumCategories = listOf("뉴스", "연예", "스포츠")
+        val naverCategories = listOf("정치", "경제", "사회", "생활/문화", "세계", "IT/과학")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
+
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        portal = sharedPref.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
+        categories = when (portal) {
+            Constants.DAUM -> daumCategories
+            else -> naverCategories
+        }
 
         setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -42,7 +59,6 @@ class NewsActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_news, menu)
         return true
     }
@@ -50,11 +66,16 @@ class NewsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        if (id == R.id.action_settings) {
-            return true
+        portal = when (id) {
+            R.id.daum -> Constants.DAUM
+            else -> Constants.NAVER
         }
 
-        return super.onOptionsItemSelected(item)
+        with(sharedPref.edit()) {
+            putString(Constants.SELECTED_PORTAL, portal)
+            apply()
+        }
+        return true
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -113,11 +134,11 @@ class NaverNewsAsyncTask(private val category: String, private val listener: OnT
             val doc = Jsoup.connect("https://news.naver.com/").get()
             val elements = doc.select("ul.section_list_ranking")
             for ((i, element) in elements.withIndex()) {
-                if (NewsActivity.categories[i] == category) {
+                if (element.parents()[0].select("h5").text() == category) {
                     for ((j, child) in element.children().withIndex()) {
                         val title = child.select("a").attr("title")
                         val url = "https://news.naver.com/" + child.select("a").attr("href")
-                        data.add(NewsItem(NewsActivity.categories[i], j + 1, title, url))
+                        data.add(NewsItem(category, j + 1, title, url))
                     }
                 }
             }
