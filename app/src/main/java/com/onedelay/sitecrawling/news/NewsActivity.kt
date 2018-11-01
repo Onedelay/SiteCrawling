@@ -42,7 +42,7 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
 
         setSupportActionBar(toolbar)
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, categories)
         container.adapter = mSectionsPagerAdapter
 
         for (category in categories) {
@@ -101,55 +101,5 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onPause() {
         super.onPause()
         sharedPref.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-        override fun getItem(position: Int) = PlaceholderFragment.newInstance(categories[position])
-
-        override fun getCount() = categories.size
-    }
-
-    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
-        private val adapter = NewsListAdapter(this)
-
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                                  savedInstanceState: Bundle?): View? {
-            val rootView = inflater.inflate(R.layout.fragment_news, container, false)
-
-            rootView.recyclerView.setHasFixedSize(true)
-            rootView.recyclerView.layoutManager = LinearLayoutManager(context)
-            rootView.recyclerView.adapter = adapter
-
-            return rootView
-        }
-
-        // 크롤링 시점을 어디에 둬야할 지 모르겠다.
-        override fun onResume() {
-            super.onResume()
-            val task =
-                    if (activity!!.getPreferences(Context.MODE_PRIVATE).getString(Constants.SELECTED_PORTAL, Constants.NAVER) == Constants.DAUM) DaumNewsAsyncTask(arguments!!.getString(CATEGORY), this)
-                    else NaverNewsAsyncTask(arguments!!.getString(CATEGORY), this)
-            task.execute()
-        }
-
-        companion object {
-            private const val CATEGORY = "category"
-
-            fun newInstance(sectionCategory: String): PlaceholderFragment {
-                val fragment = PlaceholderFragment()
-                val args = Bundle()
-                args.putString(CATEGORY, sectionCategory)
-                fragment.arguments = args
-                return fragment
-            }
-        }
-
-        override fun onNewsClick(data: NewsItem?) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
-        }
-
-        override fun onTaskComplete(list: List<NewsItem>?) {
-            adapter.setItems(list!!)
-        }
     }
 }

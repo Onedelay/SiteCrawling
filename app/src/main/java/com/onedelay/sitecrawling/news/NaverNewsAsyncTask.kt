@@ -3,7 +3,7 @@ package com.onedelay.sitecrawling.news
 import org.jsoup.Jsoup
 import java.io.IOException
 
-class NaverNewsAsyncTask(private val category: String, private val listener: NewsAsyncTask.OnTaskComplete) : NewsAsyncTask(listener) {
+class NaverNewsAsyncTask(private val category: String, listener: NewsAsyncTask.OnTaskComplete) : NewsAsyncTask(listener) {
     override fun doCrawling(): List<NewsItem> {
         val data = ArrayList<NewsItem>()
         try {
