@@ -14,6 +14,7 @@ import com.onedelay.sitecrawling.R
 import com.onedelay.sitecrawling.news.crawler.DaumNewsAsyncTask
 import com.onedelay.sitecrawling.news.crawler.NaverNewsAsyncTask
 import com.onedelay.sitecrawling.news.crawler.NewsAsyncTask
+import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
@@ -33,6 +34,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
                 if (target == Constants.DAUM) DaumNewsAsyncTask(category, this)
                 else NaverNewsAsyncTask(category, this)
         task.execute()
+        rootView.progress_bar.visibility = View.VISIBLE
 
         return rootView
     }
@@ -55,5 +57,6 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
 
     override fun onTaskComplete(list: List<NewsItem>?) {
         adapter.setItems(list!!)
+        progress_bar.visibility = View.GONE
     }
 }
