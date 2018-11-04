@@ -23,7 +23,6 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var sharedPref: SharedPreferences
 
     private lateinit var portal: String
-    private lateinit var categories: List<String>
 
     companion object {
         val daumCategories = listOf("뉴스", "연예", "스포츠")
@@ -36,39 +35,26 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         portal = sharedPref.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
-        categories = when (portal) {
-            Constants.DAUM -> daumCategories
-            else -> naverCategories
-        }
 
         setSupportActionBar(toolbar)
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, categories)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        mSectionsPagerAdapter?.setCategory(when (portal) {
+            Constants.DAUM -> daumCategories
+            else -> naverCategories
+        })
         container.adapter = mSectionsPagerAdapter
-
-        for (category in categories) {
-            tabs.addTab(tabs.newTab().setText(category))
-        }
 
         container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
+        tabs.setupWithViewPager(container, true)
     }
 
     // SharedPreference 내용이 변경될 때마다 호출되는 리스너
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
-        categories = when (p0?.getString(p1, Constants.NAVER)) {
+        mSectionsPagerAdapter!!.setCategory(when (p0?.getString(p1, Constants.NAVER)) {
             Constants.DAUM -> daumCategories
             else -> naverCategories
-        }
-
-        // 탭은 제거하지만 뷰페이저 내용은 안지워지는 듯 함
-        tabs.removeAllTabs()
-        mSectionsPagerAdapter!!.notifyDataSetChanged() // 모든탭 제거 후 notify 해주지 않으면 오류 발생
-
-        for (category in categories) {
-            tabs.addTab(tabs.newTab().setText(category))
-        }
-
-        mSectionsPagerAdapter!!.notifyDataSetChanged() // 새로 탭을 추가했기 때문에 호출해주어야 함
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

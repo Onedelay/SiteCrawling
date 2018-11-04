@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
+import com.onedelay.sitecrawling.news.crawler.DaumNewsAsyncTask
+import com.onedelay.sitecrawling.news.crawler.NaverNewsAsyncTask
+import com.onedelay.sitecrawling.news.crawler.NewsAsyncTask
 import kotlinx.android.synthetic.main.fragment_news.view.*
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
@@ -24,9 +27,11 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         rootView.recyclerView.layoutManager = LinearLayoutManager(context)
         rootView.recyclerView.adapter = adapter
 
+        val target = activity?.getPreferences(Context.MODE_PRIVATE)?.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
+        val category = arguments!!.getString(CATEGORY)
         val task =
-                if (activity!!.getPreferences(Context.MODE_PRIVATE).getString(Constants.SELECTED_PORTAL, Constants.NAVER) == Constants.DAUM) DaumNewsAsyncTask(arguments!!.getString(CATEGORY), this)
-                else NaverNewsAsyncTask(arguments!!.getString(CATEGORY), this)
+                if (target == Constants.DAUM) DaumNewsAsyncTask(category, this)
+                else NaverNewsAsyncTask(category, this)
         task.execute()
 
         return rootView

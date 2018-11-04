@@ -1,9 +1,10 @@
-package com.onedelay.sitecrawling.news
+package com.onedelay.sitecrawling.news.crawler
 
 import android.os.AsyncTask
+import com.onedelay.sitecrawling.news.NewsItem
 
-abstract class NewsAsyncTask(private val listener: NewsAsyncTask.OnTaskComplete) : AsyncTask<Void, Void, List<NewsItem>>() {
-    abstract fun doCrawling(): List<NewsItem>
+abstract class NewsAsyncTask(private val listener: OnTaskComplete) : AsyncTask<Void, Void, List<NewsItem>>() {
+    protected abstract fun doCrawling(): List<NewsItem>
 
     interface OnTaskComplete {
         fun onTaskComplete(list: List<NewsItem>?)
