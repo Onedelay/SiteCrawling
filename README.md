@@ -12,7 +12,7 @@ Image source : http://www.gettyimagesgallery.com/collections/archive/slim-aarons
 
 #### 스크린샷
 
-![](/screenshots_main.jpg) 
+<p align="center"><img src="/screenshots_main.jpg"></p>
 
 <br>
 
@@ -49,7 +49,7 @@ Image source : http://www.gettyimagesgallery.com/collections/archive/slim-aarons
 
 ### 2. 네이버 뉴스 (NewsActivity)
 
-네이버 뉴스 페이지 왼쪽 상단에 있는 가장 많이 본 뉴스 리스트를 가져와 보여준다.
+네이버 뉴스 페이지 오른쪽 상단에 있는 가장 많이 본 뉴스 리스트를 가져와 보여준다.
 
 클릭시 해당 뉴스기사를 볼 수 있다.
 
@@ -59,11 +59,26 @@ Data source : https://news.naver.com/
 
 #### 스크린샷
 
-![](/screenshots_news.jpg) 
+<p align="center"><img src="/screenshots_news.jpg"></p>
 
 <br>
-#### To do list
 
-- fragment 생성 방식 바꾸기
-- NewsActivity static 멤버 제거
-- 다음 뉴스 추가하기
+### 3. 다음 뉴스 (NewsActivity)
+
+네이버, 다음 뉴스 설정은 sharedPreference 를 이용했다. (옵션 메뉴에서 변경할 수 있다.)
+
+다음 뉴스 페이지 오른쪽 중간에 있는 가장 많이 본 뉴스 리스트를 가져와 보여준다.
+
+클릭시 해당 뉴스기사를 볼 수 있다.
+
+Data source : https://media.daum.net/society/
+
+<br>
+
+#### 스크린샷
+
+<p align="center"><img src="/screenshots_news_daum1.jpg"></p>
+
+<p align="center"><img src="/screenshots_news_daum2.jpg"></p>
+
+<br>

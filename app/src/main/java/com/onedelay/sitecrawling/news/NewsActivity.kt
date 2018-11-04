@@ -23,7 +23,6 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var sharedPref: SharedPreferences
 
     private lateinit var portal: String
-    private lateinit var categories: List<String>
 
     companion object {
         val daumCategories = listOf("뉴스", "연예", "스포츠")
@@ -36,39 +35,26 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         portal = sharedPref.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
-        categories = when (portal) {
-            Constants.DAUM -> daumCategories
-            else -> naverCategories
-        }
 
         setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        mSectionsPagerAdapter?.setCategory(when (portal) {
+            Constants.DAUM -> daumCategories
+            else -> naverCategories
+        })
         container.adapter = mSectionsPagerAdapter
-
-        for (category in categories) {
-            tabs.addTab(tabs.newTab().setText(category))
-        }
 
         container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
+        tabs.setupWithViewPager(container, true)
     }
 
     // SharedPreference 내용이 변경될 때마다 호출되는 리스너
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
-        categories = when (p0?.getString(p1, Constants.NAVER)) {
+        mSectionsPagerAdapter!!.setCategory(when (p0?.getString(p1, Constants.NAVER)) {
             Constants.DAUM -> daumCategories
             else -> naverCategories
-        }
-
-        // 탭은 제거하지만 뷰페이저 내용은 안지워지는 듯 함
-        tabs.removeAllTabs()
-        mSectionsPagerAdapter!!.notifyDataSetChanged() // 모든탭 제거 후 notify 해주지 않으면 오류 발생
-
-        for (category in categories) {
-            tabs.addTab(tabs.newTab().setText(category))
-        }
-
-        mSectionsPagerAdapter!!.notifyDataSetChanged() // 새로 탭을 추가했기 때문에 호출해주어야 함
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -101,55 +87,5 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onPause() {
         super.onPause()
         sharedPref.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-        override fun getItem(position: Int) = PlaceholderFragment.newInstance(categories[position])
-
-        override fun getCount() = categories.size
-    }
-
-    class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
-        private val adapter = NewsListAdapter(this)
-
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                                  savedInstanceState: Bundle?): View? {
-            val rootView = inflater.inflate(R.layout.fragment_news, container, false)
-
-            rootView.recyclerView.setHasFixedSize(true)
-            rootView.recyclerView.layoutManager = LinearLayoutManager(context)
-            rootView.recyclerView.adapter = adapter
-
-            return rootView
-        }
-
-        // 크롤링 시점을 어디에 둬야할 지 모르겠다.
-        override fun onResume() {
-            super.onResume()
-            val task =
-                    if (activity!!.getPreferences(Context.MODE_PRIVATE).getString(Constants.SELECTED_PORTAL, Constants.NAVER) == Constants.DAUM) DaumNewsAsyncTask(arguments!!.getString(CATEGORY), this)
-                    else NaverNewsAsyncTask(arguments!!.getString(CATEGORY), this)
-            task.execute()
-        }
-
-        companion object {
-            private const val CATEGORY = "category"
-
-            fun newInstance(sectionCategory: String): PlaceholderFragment {
-                val fragment = PlaceholderFragment()
-                val args = Bundle()
-                args.putString(CATEGORY, sectionCategory)
-                fragment.arguments = args
-                return fragment
-            }
-        }
-
-        override fun onNewsClick(data: NewsItem?) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
-        }
-
-        override fun onTaskComplete(list: List<NewsItem>?) {
-            adapter.setItems(list!!)
-        }
     }
 }
