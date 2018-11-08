@@ -9,4 +9,5 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="temp_ranking">1</string>
     <string name="temp_news_name">첫번째 기사입니다.</string>
+    <string name="temp_news_content">첫번째 기사 내용입니다. 첫번째 기사 내용입니다. 내용이다. 내용이다...</string>
 </resources>

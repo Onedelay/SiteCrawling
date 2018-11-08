@@ -5,9 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.onedelay.sitecrawling.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.viewholder_news.view.*
+import kotlinx.android.synthetic.main.viewholder_top3_news.view.*
 
-class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.Adapter<NewsViewHolder>() {
+class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.Adapter<DefaultViewHolder>() {
+    private val topCount = 3
+
+    companion object {
+        private const val VIEW_TYPE_TOP_NEWS = 1
+        private const val VIEW_TYPE_NEWS = 2
+    }
+
     private val news = ArrayList<NewsItem>()
 
     interface OnNewsClickListener {
@@ -25,30 +34,61 @@ class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = NewsViewHolder.create(parent, listener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DefaultViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_TOP_NEWS -> TopNewsViewHolder.create(parent, listener)
+            else -> NewsViewHolder.create(parent, listener)
+        }
+    }
 
     override fun getItemCount() = news.size
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+    override fun getItemViewType(position: Int): Int {
+        return if (position < topCount) {
+            VIEW_TYPE_TOP_NEWS
+        } else {
+            VIEW_TYPE_NEWS
+        }
+    }
+
+    override fun onBindViewHolder(holder: DefaultViewHolder, position: Int) {
         holder.bind(news[position])
     }
 }
 
-class NewsViewHolder private constructor(itemView: View, private val listener: NewsListAdapter.OnNewsClickListener) : RecyclerView.ViewHolder(itemView) {
-    private var item: NewsItem? = null
+abstract class DefaultViewHolder(itemView: View, private val listener: NewsListAdapter.OnNewsClickListener) : RecyclerView.ViewHolder(itemView) {
+    protected var item: NewsItem? = null
 
     init {
-        itemView.setOnClickListener {
-            listener.onNewsClick(item)
-        }
+        itemView.setOnClickListener { listener.onNewsClick(item) }
     }
 
+    abstract fun bind(item: NewsItem)
+}
+
+class TopNewsViewHolder private constructor(itemView: View, listener: NewsListAdapter.OnNewsClickListener) : DefaultViewHolder(itemView, listener) {
+    companion object {
+        fun create(parent: ViewGroup, listener: NewsListAdapter.OnNewsClickListener) = TopNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewholder_top3_news, parent, false), listener)
+    }
+
+    override fun bind(item: NewsItem) {
+        super.item = item
+        Picasso.get() // 임시 이미지
+                .load("https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png")
+                .into(itemView.top_imageView)
+        itemView.tv_top_ranking.text = item.rank.toString()
+        itemView.tv_top_name.text = item.name
+        itemView.tv_top_content.text = "임시 데이터 입니다~~~~~~~~~~~~ㅓ에버ㅔㅂ베벱베베벱 코틀린 짱"
+    }
+}
+
+class NewsViewHolder private constructor(itemView: View, listener: NewsListAdapter.OnNewsClickListener) : DefaultViewHolder(itemView, listener) {
     companion object {
         fun create(parent: ViewGroup, listener: NewsListAdapter.OnNewsClickListener) = NewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewholder_news, parent, false), listener)
     }
 
-    fun bind(item: NewsItem) {
-        this.item = item
+    override fun bind(item: NewsItem) {
+        super.item = item
         itemView.tv_ranking.text = item.rank.toString()
         itemView.tv_name.text = item.name
     }
