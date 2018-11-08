@@ -74,11 +74,11 @@ class TopNewsViewHolder private constructor(itemView: View, listener: NewsListAd
     override fun bind(item: NewsItem) {
         super.item = item
         Picasso.get() // 임시 이미지
-                .load("https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png")
+                .load(item.img)
                 .into(itemView.top_imageView)
         itemView.tv_top_ranking.text = item.rank.toString()
         itemView.tv_top_name.text = item.name
-        itemView.tv_top_content.text = "임시 데이터 입니다~~~~~~~~~~~~ㅓ에버ㅔㅂ베벱베베벱 코틀린 짱"
+        itemView.tv_top_content.text = item.content
     }
 }
 

@@ -1,12 +1,12 @@
 package com.onedelay.sitecrawling.news.crawler
 
-import android.util.Log
 import com.onedelay.sitecrawling.news.NewsItem
 import org.jsoup.Jsoup
 import java.io.IOException
 
 class DaumNewsAsyncTask(private val category: String, listener: OnTaskComplete) : NewsAsyncTask(listener) {
     override fun doCrawling(): List<NewsItem> {
+        var count = 0
         val data = ArrayList<NewsItem>()
         try {
             val doc = Jsoup.connect("https://media.daum.net/society/").get()
@@ -19,7 +19,16 @@ class DaumNewsAsyncTask(private val category: String, listener: OnTaskComplete) 
                         for ((j, c) in child.children().withIndex()) {
                             val title = c.select("strong.tit_g").select("a").text().trim()
                             val url = c.select("strong.tit_g").select("a").attr("href")
-                            data.add(NewsItem(category, (i * 10) + (j + 1), title, url))
+                            val content by lazy {
+                                if (count++ < 4) {
+                                    // 해당 url 클릭해서 내용 일부 발췌
+                                    // 3개까지만 실행하도록 분기 (너무 오래 걸림)
+                                    Jsoup.connect(url).get().select("meta[property=og:description]").attr("content")
+                                } else {
+                                    ""
+                                }
+                            }
+                            data.add(NewsItem(category, (i * 10) + (j + 1), title, url, content, "https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png"))
                         }
                     }
                 }
