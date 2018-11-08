@@ -14,14 +14,16 @@ import com.onedelay.sitecrawling.R
 import com.onedelay.sitecrawling.news.crawler.DaumNewsAsyncTask
 import com.onedelay.sitecrawling.news.crawler.NaverNewsAsyncTask
 import com.onedelay.sitecrawling.news.crawler.NewsAsyncTask
+import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
     private val adapter = NewsListAdapter(this)
+    private lateinit var rootView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_news, container, false)
+        rootView = inflater.inflate(R.layout.fragment_news, container, false)
 
         rootView.recyclerView.setHasFixedSize(true)
         rootView.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -33,6 +35,8 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
                 if (target == Constants.DAUM) DaumNewsAsyncTask(category, this)
                 else NaverNewsAsyncTask(category, this)
         task.execute()
+
+        rootView.progress_bar.visibility = View.VISIBLE
 
         return rootView
     }
@@ -55,5 +59,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
 
     override fun onTaskComplete(list: List<NewsItem>?) {
         adapter.setItems(list!!)
+        rootView.recyclerView.addItemDecoration(DividerItemDecoration(context!!))
+        progress_bar.visibility = View.GONE
     }
 }
