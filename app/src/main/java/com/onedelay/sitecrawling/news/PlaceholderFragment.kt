@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,6 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
     override fun onTaskComplete(list: List<NewsItem>?) {
         adapter.setItems(list!!)
         rootView.recyclerView.addItemDecoration(DividerItemDecoration(context!!))
-        progress_bar.visibility = View.GONE
+        progress_bar?.visibility = View.GONE
     }
 }
