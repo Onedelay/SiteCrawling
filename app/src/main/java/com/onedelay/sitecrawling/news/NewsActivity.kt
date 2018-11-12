@@ -42,9 +42,14 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             Constants.DAUM -> daumCategories
             else -> naverCategories
         })
-        container.adapter = mSectionsPagerAdapter
 
+        /* 뷰페이저 특성상 이웃한 탭의 프래그먼트까지 함께 생성하므로 총 3개의 프래그먼트가 아래와 같은 순서로 생성된다
+         * 1. 선택된 프래그먼트
+         * 2. 이웃한 프래그먼트 (왼쪽부터 하는 듯 하다)
+         */
+        container.adapter = mSectionsPagerAdapter
         container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
         tabs.setupWithViewPager(container, true)
     }

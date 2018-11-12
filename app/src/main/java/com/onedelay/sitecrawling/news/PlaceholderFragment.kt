@@ -22,26 +22,6 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
     private val adapter = NewsListAdapter(this)
     private lateinit var rootView: View
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_news, container, false)
-
-        rootView.recyclerView.setHasFixedSize(true)
-        rootView.recyclerView.layoutManager = LinearLayoutManager(context)
-        rootView.recyclerView.adapter = adapter
-
-        val target = activity?.getPreferences(Context.MODE_PRIVATE)?.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
-        val category = arguments!!.getString(CATEGORY)
-        val task =
-                if (target == Constants.DAUM) DaumNewsAsyncTask(category, this)
-                else NaverNewsAsyncTask(category, this)
-        task.execute()
-
-        rootView.progress_bar.visibility = View.VISIBLE
-
-        return rootView
-    }
-
     companion object {
         private const val CATEGORY = "category"
 
@@ -54,13 +34,45 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        rootView = inflater.inflate(R.layout.fragment_news, container, false)
+
+        rootView.recyclerView.setHasFixedSize(true)
+        rootView.recyclerView.layoutManager = LinearLayoutManager(context)
+        rootView.recyclerView.adapter = adapter
+        rootView.recyclerView.addItemDecoration(DividerItemDecoration(context!!))
+
+        rootView.progress_bar.visibility = View.VISIBLE
+
+        // 프래그먼트 생성시 최초 크롤링 시작
+        startCrawling()
+
+        // 새로고침 시 크롤링 시작
+        rootView.swipeRefreshLayout.setOnRefreshListener {
+            startCrawling()
+        }
+
+        return rootView
+    }
+
+    private fun startCrawling() {
+        adapter.removeAll()
+        val target = activity?.getPreferences(Context.MODE_PRIVATE)?.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
+        val category = arguments!!.getString(CATEGORY)
+        val task =
+                if (target == Constants.DAUM) DaumNewsAsyncTask(category, this)
+                else NaverNewsAsyncTask(category, this)
+        task.execute()
+    }
+
     override fun onNewsClick(data: NewsItem?) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
     }
 
     override fun onTaskComplete(list: List<NewsItem>?) {
         adapter.setItems(list!!)
-        rootView.recyclerView.addItemDecoration(DividerItemDecoration(context!!))
+        rootView.swipeRefreshLayout.isRefreshing = false
         progress_bar?.visibility = View.GONE
     }
 }
