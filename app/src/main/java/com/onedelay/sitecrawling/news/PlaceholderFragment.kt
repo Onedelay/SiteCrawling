@@ -20,18 +20,21 @@ import kotlinx.android.synthetic.main.fragment_news.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URLEncoder
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
     private val adapter = NewsListAdapter(this)
     private lateinit var rootView: View
 
     companion object {
+        private const val PORTAL = "portal"
         private const val CATEGORY = "category"
 
-        fun newInstance(sectionCategory: String): PlaceholderFragment {
+        fun newInstance(sectionCategory: String, portal: String): PlaceholderFragment {
             val fragment = PlaceholderFragment()
             val args = Bundle()
             args.putString(CATEGORY, sectionCategory)
+            args.putString(PORTAL, portal)
             fragment.arguments = args
             return fragment
         }
@@ -48,13 +51,10 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
 
         rootView.progress_bar.visibility = View.VISIBLE
 
-        // 프래그먼트 생성시 최초 크롤링 시작
-//        startCrawling()
-
         // 새로고침 시 크롤링 시작
-//        rootView.swipeRefreshLayout.setOnRefreshListener {
-//            startCrawling()
-//        }
+        rootView.swipeRefreshLayout.setOnRefreshListener {
+            requestServer()
+        }
 
         requestServer()
 
@@ -62,33 +62,42 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
     }
 
     private fun requestServer() {
-        if (arguments?.getString(CATEGORY)!! == Constants.NAVER) {
-            RetrofitService.create().getNaverNews().enqueue(object : Callback<List<NewsItem>> {
+        //TODO : url 에 특수문자가 포함된 경우 동작하지 않는다. (네이버 2개 탭 동작 안함)
+        val portal = URLEncoder.encode(arguments?.getString(PORTAL), "UTF-8")
+        val category = arguments?.getString(CATEGORY)!!
+
+        if (portal == Constants.NAVER) {
+            RetrofitService.create().getNaverNews(category).enqueue(object : Callback<List<NewsItem>> {
                 override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
                     Log.d("SERVER_TEST", t.message)
                 }
 
                 override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
                     val body = response.body()
-                    adapter.setItems(body!!)
+                    if (body != null) {
+                        adapter.setItems(body)
+                    }
                     progress_bar?.visibility = View.GONE
                 }
             })
         } else {
-            RetrofitService.create().getDaumNews().enqueue(object : Callback<List<NewsItem>> {
+            RetrofitService.create().getDaumNews(category).enqueue(object : Callback<List<NewsItem>> {
                 override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
                     Log.d("SERVER_TEST", t.message)
                 }
 
                 override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
                     val body = response.body()
-                    adapter.setItems(body!!)
+                    if (body != null) {
+                        adapter.setItems(body)
+                    }
                     progress_bar?.visibility = View.GONE
                 }
             })
         }
     }
 
+    @Deprecated("Not use")
     private fun startCrawling() {
         adapter.removeAll()
         val target = activity?.getPreferences(Context.MODE_PRIVATE)?.getString(Constants.SELECTED_PORTAL, Constants.NAVER)
