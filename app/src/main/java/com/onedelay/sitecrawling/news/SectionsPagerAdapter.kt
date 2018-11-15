@@ -27,11 +27,12 @@ class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return PagerAdapter.POSITION_NONE
     }
 
-    fun setCategory(categories: List<String>) {
+    fun setCategory(categories: List<String>, portal: String) {
         this.categories = categories
         pageList.clear()
+
         categories.forEach {
-            pageList.add(PlaceholderFragment.newInstance(it))
+            pageList.add(PlaceholderFragment.newInstance(it, portal))
         }
         notifyDataSetChanged()
     }

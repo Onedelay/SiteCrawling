@@ -1,21 +1,15 @@
 package com.onedelay.sitecrawling.news
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
 import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
 import kotlinx.android.synthetic.main.activity_news.*
-import kotlinx.android.synthetic.main.fragment_news.view.*
 
 class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
@@ -41,7 +35,7 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         mSectionsPagerAdapter?.setCategory(when (portal) {
             Constants.DAUM -> daumCategories
             else -> naverCategories
-        })
+        }, portal)
 
         /* 뷰페이저 특성상 이웃한 탭의 프래그먼트까지 함께 생성하므로 총 3개의 프래그먼트가 아래와 같은 순서로 생성된다
          * 1. 선택된 프래그먼트
@@ -59,7 +53,7 @@ class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         mSectionsPagerAdapter!!.setCategory(when (p0?.getString(p1, Constants.NAVER)) {
             Constants.DAUM -> daumCategories
             else -> naverCategories
-        })
+        }, portal)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
