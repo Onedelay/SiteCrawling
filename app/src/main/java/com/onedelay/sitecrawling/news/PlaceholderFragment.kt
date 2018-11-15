@@ -17,6 +17,9 @@ import com.onedelay.sitecrawling.news.crawler.NaverNewsAsyncTask
 import com.onedelay.sitecrawling.news.crawler.NewsAsyncTask
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
     private val adapter = NewsListAdapter(this)
@@ -46,14 +49,44 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         rootView.progress_bar.visibility = View.VISIBLE
 
         // 프래그먼트 생성시 최초 크롤링 시작
-        startCrawling()
+//        startCrawling()
 
         // 새로고침 시 크롤링 시작
-        rootView.swipeRefreshLayout.setOnRefreshListener {
-            startCrawling()
-        }
+//        rootView.swipeRefreshLayout.setOnRefreshListener {
+//            startCrawling()
+//        }
+
+        requestServer()
 
         return rootView
+    }
+
+    private fun requestServer() {
+        if (arguments?.getString(CATEGORY)!! == Constants.NAVER) {
+            RetrofitService.create().getNaverNews().enqueue(object : Callback<List<NewsItem>> {
+                override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
+                    Log.d("SERVER_TEST", t.message)
+                }
+
+                override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
+                    val body = response.body()
+                    adapter.setItems(body!!)
+                    progress_bar?.visibility = View.GONE
+                }
+            })
+        } else {
+            RetrofitService.create().getDaumNews().enqueue(object : Callback<List<NewsItem>> {
+                override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
+                    Log.d("SERVER_TEST", t.message)
+                }
+
+                override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
+                    val body = response.body()
+                    adapter.setItems(body!!)
+                    progress_bar?.visibility = View.GONE
+                }
+            })
+        }
     }
 
     private fun startCrawling() {
