@@ -4,6 +4,7 @@ import com.onedelay.sitecrawling.news.NewsItem
 import org.jsoup.Jsoup
 import java.io.IOException
 
+@Deprecated("Not use")
 class NaverNewsAsyncTask(private val category: String, listener: OnTaskComplete) : NewsAsyncTask(listener) {
     override fun doCrawling(): List<NewsItem> {
         var count = 0
