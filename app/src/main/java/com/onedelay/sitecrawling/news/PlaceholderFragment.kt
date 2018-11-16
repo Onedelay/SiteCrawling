@@ -51,7 +51,6 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         rootView.progress_bar.visibility = View.VISIBLE
 
         // 새로고침 시 크롤링 시작
-        //TODO : 아래 기능도 동작하지 않음. 확인 필요
         rootView.swipeRefreshLayout.setOnRefreshListener {
             requestServer()
         }
@@ -61,6 +60,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         return rootView
     }
 
+    // 서버에 크롤링 요청
     private fun requestServer() {
         val portal = arguments?.getString(PORTAL)
         val category = arguments?.getString(CATEGORY)!!
@@ -76,7 +76,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
                     if (body != null) {
                         adapter.setItems(body)
                     }
-                    progress_bar?.visibility = View.GONE
+                    hideProgressBar()
                 }
             })
         } else {
@@ -90,7 +90,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
                     if (body != null) {
                         adapter.setItems(body)
                     }
-                    progress_bar?.visibility = View.GONE
+                    hideProgressBar()
                 }
             })
         }
@@ -107,13 +107,17 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         task.execute()
     }
 
+    private fun hideProgressBar() {
+        progress_bar?.visibility = View.GONE
+        rootView.swipeRefreshLayout.isRefreshing = false
+    }
+
     override fun onNewsClick(data: NewsItem?) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
     }
 
     override fun onTaskComplete(list: List<NewsItem>?) {
         adapter.setItems(list!!)
-        rootView.swipeRefreshLayout.isRefreshing = false
-        progress_bar?.visibility = View.GONE
+        hideProgressBar()
     }
 }
