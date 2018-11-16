@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_news.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URLEncoder
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
     private val adapter = NewsListAdapter(this)
@@ -61,9 +60,9 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         return rootView
     }
 
+    // 서버에 크롤링 요청
     private fun requestServer() {
-        //TODO : url 에 특수문자가 포함된 경우 동작하지 않는다. (네이버 2개 탭 동작 안함)
-        val portal = URLEncoder.encode(arguments?.getString(PORTAL), "UTF-8")
+        val portal = arguments?.getString(PORTAL)
         val category = arguments?.getString(CATEGORY)!!
 
         if (portal == Constants.NAVER) {
@@ -77,7 +76,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
                     if (body != null) {
                         adapter.setItems(body)
                     }
-                    progress_bar?.visibility = View.GONE
+                    hideProgressBar()
                 }
             })
         } else {
@@ -91,7 +90,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
                     if (body != null) {
                         adapter.setItems(body)
                     }
-                    progress_bar?.visibility = View.GONE
+                    hideProgressBar()
                 }
             })
         }
@@ -108,13 +107,17 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         task.execute()
     }
 
+    private fun hideProgressBar() {
+        progress_bar?.visibility = View.GONE
+        rootView.swipeRefreshLayout.isRefreshing = false
+    }
+
     override fun onNewsClick(data: NewsItem?) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(data?.url)))
     }
 
     override fun onTaskComplete(list: List<NewsItem>?) {
         adapter.setItems(list!!)
-        rootView.swipeRefreshLayout.isRefreshing = false
-        progress_bar?.visibility = View.GONE
+        hideProgressBar()
     }
 }
