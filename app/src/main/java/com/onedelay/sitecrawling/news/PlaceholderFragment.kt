@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_news.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URLEncoder
 
 class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsAsyncTask.OnTaskComplete {
     private val adapter = NewsListAdapter(this)
@@ -52,6 +51,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
         rootView.progress_bar.visibility = View.VISIBLE
 
         // 새로고침 시 크롤링 시작
+        //TODO : 아래 기능도 동작하지 않음. 확인 필요
         rootView.swipeRefreshLayout.setOnRefreshListener {
             requestServer()
         }
@@ -62,8 +62,7 @@ class PlaceholderFragment : Fragment(), NewsListAdapter.OnNewsClickListener, New
     }
 
     private fun requestServer() {
-        //TODO : url 에 특수문자가 포함된 경우 동작하지 않는다. (네이버 2개 탭 동작 안함)
-        val portal = URLEncoder.encode(arguments?.getString(PORTAL), "UTF-8")
+        val portal = arguments?.getString(PORTAL)
         val category = arguments?.getString(CATEGORY)!!
 
         if (portal == Constants.NAVER) {

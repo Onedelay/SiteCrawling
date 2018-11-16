@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface RetrofitService {
@@ -32,9 +32,9 @@ interface RetrofitService {
         }
     }
 
-    @GET("naver/{category}")
-    fun getNaverNews(@Path("category") category: String): Call<List<NewsItem>>
+    @GET("naver")
+    fun getNaverNews(@Query("category") category: String): Call<List<NewsItem>>
 
-    @GET("daum/{category}")
-    fun getDaumNews(@Path("category") category: String): Call<List<NewsItem>>
+    @GET("daum")
+    fun getDaumNews(@Query("category") category: String): Call<List<NewsItem>>
 }
