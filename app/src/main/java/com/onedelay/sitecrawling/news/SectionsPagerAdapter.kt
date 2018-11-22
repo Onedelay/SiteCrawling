@@ -3,11 +3,12 @@ package com.onedelay.sitecrawling.news
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
+import com.onedelay.sitecrawling.news.view.NewsListFragment
 
 class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private var categories: List<String>? = null
 
-    private val pageList = ArrayList<PlaceholderFragment>()
+    private val pageList = ArrayList<NewsListFragment>()
 
     override fun getItem(position: Int) = pageList[position]
 
@@ -32,7 +33,7 @@ class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         pageList.clear()
 
         categories.forEach {
-            pageList.add(PlaceholderFragment.newInstance(it, portal))
+            pageList.add(NewsListFragment.newInstance(it, portal))
         }
         notifyDataSetChanged()
     }

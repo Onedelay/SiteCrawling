@@ -1,4 +1,4 @@
-package com.onedelay.sitecrawling.news
+package com.onedelay.sitecrawling.news.model
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

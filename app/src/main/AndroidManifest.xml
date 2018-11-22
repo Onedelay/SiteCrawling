@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".image.MainActivity"/>
         <activity
-            android:name=".news.NewsActivity"
+            android:name=".news.view.NewsActivity"
             android:label="@string/title_activity_news"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.onedelay.sitecrawling.R
+import com.onedelay.sitecrawling.news.model.NewsItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.viewholder_news.view.*
 import kotlinx.android.synthetic.main.viewholder_top3_news.view.*

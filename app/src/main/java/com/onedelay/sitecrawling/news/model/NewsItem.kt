@@ -1,4 +1,4 @@
-package com.onedelay.sitecrawling.news
+package com.onedelay.sitecrawling.news.model
 
 data class NewsItem(val category: String,
                     val rank: Int,

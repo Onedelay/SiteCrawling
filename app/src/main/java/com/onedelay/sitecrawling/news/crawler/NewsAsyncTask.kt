@@ -1,7 +1,7 @@
 package com.onedelay.sitecrawling.news.crawler
 
 import android.os.AsyncTask
-import com.onedelay.sitecrawling.news.NewsItem
+import com.onedelay.sitecrawling.news.model.NewsItem
 
 /**
  * @Deprecated 크롤링은 웹 서버에서 진행합니다.

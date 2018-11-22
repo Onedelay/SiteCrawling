@@ -1,4 +1,4 @@
-package com.onedelay.sitecrawling.news
+package com.onedelay.sitecrawling.news.utils
 
 import android.content.Context
 import android.content.res.TypedArray
