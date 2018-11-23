@@ -9,14 +9,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsListPresenter(private val newsListView: NewsListContract.View) : NewsListContract.UserActions {
+class NewsListPresenter(private val newsListView: NewsListContract.View,
+                        private var portal: String,
+                        private var category: String) : NewsListContract.UserActions {
 
-    override fun requestServer(portal: String, category: String) {
+    override fun requestServer() {
         if (portal == Constants.NAVER) {
             RetrofitService.create().getNaverNews(category).enqueue(object : Callback<List<NewsItem>> {
                 override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
                     Log.d("SERVER_TEST", t.message)
                     newsListView.showError()
+                    newsListView.hideProgress()
                 }
 
                 override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
@@ -30,6 +33,7 @@ class NewsListPresenter(private val newsListView: NewsListContract.View) : NewsL
                 override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
                     Log.d("SERVER_TEST", t.message)
                     newsListView.showError()
+                    newsListView.hideProgress()
                 }
 
                 override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {

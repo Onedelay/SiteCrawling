@@ -9,10 +9,6 @@ interface NewsListContract {
      * presenter 에서 조작
      * */
     interface View {
-        // 아래 두개의 멤버는 프래그먼트의 argument 를 리턴하도록 구현
-        val portal: String
-        val category: String
-
         /**
          * 서버로부터 받은 결과를 프래그먼트 어댑터에 set
          */
@@ -35,7 +31,7 @@ interface NewsListContract {
         /**
          * 서버에 크롤링 요청
          */
-        fun requestServer(portal: String, category: String)
+        fun requestServer()
 
         /**
          * 뉴스 아이템 선택

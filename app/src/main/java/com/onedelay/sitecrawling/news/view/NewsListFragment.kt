@@ -25,12 +25,6 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsLi
 
     private lateinit var newsListPresenter: NewsListPresenter
 
-    override val portal: String
-        get() = arguments!!.getString(PORTAL)
-
-    override val category: String
-        get() = arguments!!.getString(CATEGORY)
-
     companion object {
         private const val PORTAL = "portal"
         private const val CATEGORY = "category"
@@ -56,14 +50,14 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsLi
 
         rootView.progress_bar.visibility = View.VISIBLE
 
-        newsListPresenter = NewsListPresenter(this)
+        newsListPresenter = NewsListPresenter(this, arguments!!.getString(PORTAL), arguments!!.getString(CATEGORY))
 
         // 새로고침 시 크롤링 시작
         rootView.swipeRefreshLayout.setOnRefreshListener {
-            newsListPresenter.requestServer(portal, category)
+            newsListPresenter.requestServer()
         }
 
-        newsListPresenter.requestServer(portal, category)
+        newsListPresenter.requestServer()
 
         return rootView
     }
@@ -88,6 +82,10 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsLi
 
     // selectNewsItem 메서드는 리사이클러뷰에서 뉴스 아이템 클릭시 호출됨
     override fun onNewsClick(data: NewsItem?) {
-        newsListPresenter.clickNewsItem(data!!)
+        if (data != null) {
+            newsListPresenter.clickNewsItem(data)
+        } else {
+            Toast.makeText(context, "데이터가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 }
