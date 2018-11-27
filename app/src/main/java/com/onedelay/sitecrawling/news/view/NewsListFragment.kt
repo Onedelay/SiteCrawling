@@ -4,15 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import com.onedelay.sitecrawling.R
-import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
-import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.contract.NewsListContract
+import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.presenter.NewsListPresenter
+import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 
@@ -90,6 +91,8 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsLi
         }
     }
 
+    // Share plain text using intent (to all messaging apps)
+    // https://stackoverflow.com/questions/9948373/android-share-plain-text-using-intent-to-all-messaging-apps
     override fun onNewsLongClick(data: NewsItem?) {
         val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
