@@ -1,9 +1,8 @@
-package com.onedelay.sitecrawling.news
+package com.onedelay.sitecrawling.news.view
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
-import com.onedelay.sitecrawling.news.view.NewsListFragment
 
 class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private var categories: List<String>? = null

@@ -1,4 +1,4 @@
-package com.onedelay.sitecrawling.news
+package com.onedelay.sitecrawling.news.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -22,16 +22,13 @@ class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.
 
     interface OnNewsClickListener {
         fun onNewsClick(data: NewsItem?)
+        fun onNewsLongClick(data: NewsItem?)
     }
 
     fun setItems(items: List<NewsItem>) {
         news.clear()
         news.addAll(items)
         notifyDataSetChanged()
-    }
-
-    fun removeAll() {
-        news.clear()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DefaultViewHolder {
@@ -53,6 +50,7 @@ class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.
 
     override fun onBindViewHolder(holder: DefaultViewHolder, position: Int) {
         holder.bind(news[position])
+        holder.itemView.isLongClickable = true
     }
 }
 
@@ -60,7 +58,16 @@ abstract class DefaultViewHolder(itemView: View, private val listener: NewsListA
     protected var item: NewsItem? = null
 
     init {
-        itemView.setOnClickListener { listener.onNewsClick(item) }
+        itemView.setOnClickListener {
+            listener.onNewsClick(item)
+        }
+
+        // 롱클릭 이벤트를 모두 처리했을 경우를 알리기 위해 true 값을 리턴하고 중지한다
+        // 처리되지 않으면 false 를 반환하고, 다른 리스너는 이벤트를 계속 받는다
+        itemView.setOnLongClickListener {
+            listener.onNewsLongClick(item)
+            true
+        }
     }
 
     abstract fun bind(item: NewsItem)

@@ -4,19 +4,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import com.onedelay.sitecrawling.R
-import com.onedelay.sitecrawling.news.NewsListAdapter
 import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.contract.NewsListContract
 import com.onedelay.sitecrawling.news.presenter.NewsListPresenter
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
+
 
 class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsListContract.View {
     private val adapter = NewsListAdapter(this)
@@ -47,6 +46,8 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsLi
         rootView.recyclerView.layoutManager = LinearLayoutManager(context)
         rootView.recyclerView.adapter = adapter
         rootView.recyclerView.addItemDecoration(DividerItemDecoration(context!!))
+
+        registerForContextMenu(rootView.recyclerView)
 
         rootView.progress_bar.visibility = View.VISIBLE
 
@@ -87,5 +88,13 @@ class NewsListFragment : Fragment(), NewsListAdapter.OnNewsClickListener, NewsLi
         } else {
             Toast.makeText(context, "데이터가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onNewsLongClick(data: NewsItem?) {
+        val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, data?.name)
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, data?.url)
+        startActivity(Intent.createChooser(sharingIntent, resources.getString(R.string.str_share)))
     }
 }
