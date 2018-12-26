@@ -7,7 +7,7 @@ import com.onedelay.sitecrawling.news.view.viewholders.BaseViewHolder
 import com.onedelay.sitecrawling.news.view.viewholders.NewsViewHolder
 import com.onedelay.sitecrawling.news.view.viewholders.TopNewsViewHolder
 
-class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.Adapter<BaseViewHolder>() {
+class NewsListAdapter(private val listener: BaseOnClickListener) : RecyclerView.Adapter<BaseViewHolder>() {
     private val topCount = 3
 
     companion object {
@@ -16,11 +16,6 @@ class NewsListAdapter(private val listener: OnNewsClickListener) : RecyclerView.
     }
 
     private val news = ArrayList<NewsItem>()
-
-    interface OnNewsClickListener {
-        fun onNewsClick(data: NewsItem?)
-        fun onNewsLongClick(data: NewsItem?)
-    }
 
     fun setItems(items: List<NewsItem>) {
         news.clear()
