@@ -1,6 +1,6 @@
 # IntelliJ
 *.iml
-.idea/
+.idea
 .DS_Store
 /build
 /captures
