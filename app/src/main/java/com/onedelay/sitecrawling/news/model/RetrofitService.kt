@@ -37,4 +37,10 @@ interface RetrofitService {
 
     @GET("daum")
     fun getDaumNews(@Query("category") category: String): Call<List<NewsItem>>
+
+    @GET("naver_issue")
+    fun getNaverIssue(): Call<List<IssueItem>>
+
+    @GET("daum_issue")
+    fun getDaumIssue(): Call<List<IssueItem>>
 }
