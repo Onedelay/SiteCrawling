@@ -13,8 +13,8 @@ class NewsViewHolder private constructor(itemView: View, listener: NewsListAdapt
         fun create(parent: ViewGroup, listener: NewsListAdapter.OnNewsClickListener) = NewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewholder_news, parent, false), listener)
     }
 
-    override fun bind(item: NewsItem) {
-        super.item = item
+    override fun bind(item: Any) {
+        super.item = item as NewsItem
         itemView.tv_ranking.text = item.rank.toString()
         itemView.tv_name.text = item.name
     }

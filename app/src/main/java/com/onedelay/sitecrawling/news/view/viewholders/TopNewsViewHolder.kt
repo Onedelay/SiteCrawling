@@ -14,8 +14,8 @@ class TopNewsViewHolder private constructor(itemView: View, listener: NewsListAd
         fun create(parent: ViewGroup, listener: NewsListAdapter.OnNewsClickListener) = TopNewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.viewholder_top3_news, parent, false), listener)
     }
 
-    override fun bind(item: NewsItem) {
-        super.item = item
+    override fun bind(item: Any) {
+        super.item = item as NewsItem
         Picasso.get() // 임시 이미지
                 .load(item.img)
                 .into(itemView.top_imageView)

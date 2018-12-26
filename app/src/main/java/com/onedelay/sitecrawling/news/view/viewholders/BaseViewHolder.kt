@@ -22,5 +22,5 @@ abstract class BaseViewHolder(itemView: View, private val listener: NewsListAdap
         }
     }
 
-    abstract fun bind(item: NewsItem)
+    abstract fun bind(item: Any)
 }
