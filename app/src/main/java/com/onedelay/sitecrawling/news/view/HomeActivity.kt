@@ -1,0 +1,15 @@
+package com.onedelay.sitecrawling.news.view
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import com.onedelay.sitecrawling.R
+
+class HomeActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
+
+
+    }
+}

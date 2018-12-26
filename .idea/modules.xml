@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SiteCrowling.iml" filepath="$PROJECT_DIR$/SiteCrowling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SiteCrawling.iml" filepath="$PROJECT_DIR$/SiteCrawling.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
