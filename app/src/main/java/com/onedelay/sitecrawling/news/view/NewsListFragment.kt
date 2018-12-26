@@ -14,6 +14,7 @@ import com.onedelay.sitecrawling.news.contract.NewsListContract
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.presenter.NewsListPresenter
 import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
+import com.onedelay.sitecrawling.news.view.adapters.NewsListAdapter
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 

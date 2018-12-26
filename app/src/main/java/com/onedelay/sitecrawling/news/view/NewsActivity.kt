@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
+import com.onedelay.sitecrawling.news.view.adapters.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_news.*
 
 class NewsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {

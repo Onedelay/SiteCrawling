@@ -1,8 +1,9 @@
-package com.onedelay.sitecrawling.news.view
+package com.onedelay.sitecrawling.news.view.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.onedelay.sitecrawling.news.model.NewsItem
+import com.onedelay.sitecrawling.news.view.BaseOnClickListener
 import com.onedelay.sitecrawling.news.view.viewholders.BaseViewHolder
 import com.onedelay.sitecrawling.news.view.viewholders.NewsViewHolder
 import com.onedelay.sitecrawling.news.view.viewholders.TopNewsViewHolder

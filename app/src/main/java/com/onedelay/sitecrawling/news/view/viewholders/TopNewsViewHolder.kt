@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import com.onedelay.sitecrawling.R
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.view.BaseOnClickListener
-import com.onedelay.sitecrawling.news.view.NewsListAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.viewholder_top3_news.view.*
 

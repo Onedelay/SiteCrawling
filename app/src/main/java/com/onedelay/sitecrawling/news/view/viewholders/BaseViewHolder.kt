@@ -2,9 +2,7 @@ package com.onedelay.sitecrawling.news.view.viewholders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.view.BaseOnClickListener
-import com.onedelay.sitecrawling.news.view.NewsListAdapter
 
 abstract class BaseViewHolder(itemView: View, private val listener: BaseOnClickListener) : RecyclerView.ViewHolder(itemView) {
     protected var item: Any? = null
