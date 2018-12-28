@@ -3,9 +3,14 @@ package com.onedelay.sitecrawling.news.view.viewholders
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.onedelay.sitecrawling.news.view.BaseOnClickListener
+import kotlinx.android.extensions.LayoutContainer
 
-abstract class BaseViewHolder(itemView: View, private val listener: BaseOnClickListener) : RecyclerView.ViewHolder(itemView) {
+abstract class BaseViewHolder(itemView: View, private val listener: BaseOnClickListener) : RecyclerView.ViewHolder(itemView), LayoutContainer {
+    // LayoutContainer containerView 변수를 오버라이딩해야 kotlin extension 동작(캐시에서 가져옴)
+    // https://www.androidhuman.com/lecture/kotlin/2017/11/26/kotlin_android_extensions_on_viewholder/
     protected var item: Any? = null
+    override val containerView: View?
+        get() = itemView
 
     init {
         itemView.setOnClickListener {
