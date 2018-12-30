@@ -2,16 +2,16 @@ package com.onedelay.sitecrawling.news.presenter
 
 import android.util.Log
 import com.onedelay.sitecrawling.Constants
+import com.onedelay.sitecrawling.news.contract.ServerContract
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.model.RetrofitService
-import com.onedelay.sitecrawling.news.contract.NewsListContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsListPresenter(private val newsListView: NewsListContract.View,
+class NewsListPresenter(private val newsListView: ServerContract.View,
                         private var portal: String,
-                        private var category: String) : NewsListContract.UserActions {
+                        private var category: String) : ServerContract.UserActions {
 
     override fun requestServer() {
         if (portal == Constants.NAVER) {
@@ -24,7 +24,7 @@ class NewsListPresenter(private val newsListView: NewsListContract.View,
 
                 override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
                     val body = response.body()
-                    newsListView.receiveNewsList(body)
+                    newsListView.receiveList(body)
                     newsListView.hideProgress()
                 }
             })
@@ -38,7 +38,7 @@ class NewsListPresenter(private val newsListView: NewsListContract.View,
 
                 override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
                     val body = response.body()
-                    newsListView.receiveNewsList(body)
+                    newsListView.receiveList(body)
                     newsListView.hideProgress()
                 }
             })

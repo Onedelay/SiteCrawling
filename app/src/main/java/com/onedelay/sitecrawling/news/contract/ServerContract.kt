@@ -1,8 +1,9 @@
 package com.onedelay.sitecrawling.news.contract
 
+import com.onedelay.sitecrawling.news.model.IssueItem
 import com.onedelay.sitecrawling.news.model.NewsItem
 
-interface NewsListContract {
+interface ServerContract {
 
     /**
      * 프래그먼트가 구현할 인터페이스
@@ -10,9 +11,9 @@ interface NewsListContract {
      * */
     interface View {
         /**
-         * 서버로부터 받은 결과를 프래그먼트 어댑터에 set
+         * 서버로부터 받은 결과를 리사이클러뷰 어댑터에 set
          */
-        fun receiveNewsList(items: List<NewsItem>?)
+        fun receiveList(items: List<NewsItem>?)
 
         /**
          * 뉴스 아이템 클릭 시 새로운 브라우저 열기
@@ -34,8 +35,24 @@ interface NewsListContract {
         fun requestServer()
 
         /**
-         * 뉴스 아이템 선택
+         * 아이템 선택
          */
         fun clickNewsItem(item: NewsItem)
     }
+
+    // -----------------------
+
+    interface IssueView {
+        fun receiveNaverIssue(items: List<IssueItem>)
+        fun receiveDaumIssue(items: List<IssueItem>)
+        fun openNewBrowser(url: String)
+        fun showError()
+    }
+
+    interface IssueActions {
+        fun requestNaverIssue()
+        fun requestDaumIssue()
+        fun clickItem(item: NewsItem)
+    }
+
 }

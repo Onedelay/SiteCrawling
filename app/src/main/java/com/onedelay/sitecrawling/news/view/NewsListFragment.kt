@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.onedelay.sitecrawling.R
-import com.onedelay.sitecrawling.news.contract.NewsListContract
+import com.onedelay.sitecrawling.news.contract.ServerContract
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.presenter.NewsListPresenter
 import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
@@ -18,7 +18,7 @@ import com.onedelay.sitecrawling.news.view.adapters.NewsListAdapter
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 
-class NewsListFragment : Fragment(), BaseOnClickListener, NewsListContract.View {
+class NewsListFragment : Fragment(), BaseOnClickListener, ServerContract.View {
     private val adapter = NewsListAdapter(this)
 
     private lateinit var rootView: View
@@ -64,7 +64,7 @@ class NewsListFragment : Fragment(), BaseOnClickListener, NewsListContract.View 
         return rootView
     }
 
-    override fun receiveNewsList(items: List<NewsItem>?) {
+    override fun receiveList(items: List<NewsItem>?) {
         adapter.setItems(items ?: listOf())
     }
 
