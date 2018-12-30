@@ -9,6 +9,14 @@
     <!-- 이 사이트 참고해서 레이아웃 바꿔보기(코디네이터 레이아웃 연습)
     http://readme.skplanet.com/?p=11463 -->
 
+    <TextView
+        android:id="@+id/tv_title"
+        android:text="@string/str_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"

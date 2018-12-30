@@ -26,7 +26,7 @@ class HomeActivity : AppCompatActivity(), BaseOnClickListener, ServerContract.Is
 
         initList()
 
-        iv_daum_logo.setOnClickListener {
+        logo.setOnClickListener {
             startActivity(Intent(this, NewsActivity::class.java))
         }
 
