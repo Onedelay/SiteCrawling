@@ -1,6 +1,7 @@
 package com.onedelay.sitecrawling.news.presenter
 
 import android.util.Log
+import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.news.contract.ServerContract
 import com.onedelay.sitecrawling.news.model.IssueItem
 import com.onedelay.sitecrawling.news.model.NewsItem
@@ -15,10 +16,12 @@ class IssueListPresenter(private val issueListView: ServerContract.IssueView) : 
             override fun onFailure(call: Call<List<IssueItem>>, t: Throwable) {
                 Log.d("SERVER_TEST", t.message)
                 issueListView.showError()
+                issueListView.hideProgress(Constants.NAVER)
             }
 
             override fun onResponse(call: Call<List<IssueItem>>, response: Response<List<IssueItem>>) {
                 issueListView.receiveNaverIssue(response.body() ?: listOf())
+                issueListView.hideProgress(Constants.NAVER)
             }
         })
     }
@@ -28,10 +31,12 @@ class IssueListPresenter(private val issueListView: ServerContract.IssueView) : 
             override fun onFailure(call: Call<List<IssueItem>>, t: Throwable) {
                 Log.d("SERVER_TEST", t.message)
                 issueListView.showError()
+                issueListView.hideProgress(Constants.DAUM)
             }
 
             override fun onResponse(call: Call<List<IssueItem>>, response: Response<List<IssueItem>>) {
                 issueListView.receiveDaumIssue(response.body() ?: listOf())
+                issueListView.hideProgress(Constants.DAUM)
             }
         })
     }

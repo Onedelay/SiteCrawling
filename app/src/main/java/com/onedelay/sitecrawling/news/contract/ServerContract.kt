@@ -47,6 +47,7 @@ interface ServerContract {
         fun receiveDaumIssue(items: List<IssueItem>)
         fun openNewBrowser(url: String)
         fun showError()
+        fun hideProgress(type: String)
     }
 
     interface IssueActions {
