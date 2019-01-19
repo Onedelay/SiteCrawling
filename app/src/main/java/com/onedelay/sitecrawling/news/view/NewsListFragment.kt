@@ -48,8 +48,6 @@ class NewsListFragment : Fragment(), BaseOnClickListener, ServerContract.View {
         recyclerView.addItemDecoration(DividerItemDecoration(context!!))
         registerForContextMenu(recyclerView)
 
-        progress_bar.visibility = View.VISIBLE
-
         val portal = arguments?.getString(ARGUMENT_PORTAL) ?: ""
         val category = arguments?.getString(ARGUMENT_CATEGORY) ?: ""
         newsListPresenter = NewsListPresenter(this, portal, category)
@@ -68,7 +66,7 @@ class NewsListFragment : Fragment(), BaseOnClickListener, ServerContract.View {
 
     override fun hideProgress() {
         progress_bar?.visibility = View.GONE
-        swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout?.isRefreshing = false
     }
 
     override fun showError() {
