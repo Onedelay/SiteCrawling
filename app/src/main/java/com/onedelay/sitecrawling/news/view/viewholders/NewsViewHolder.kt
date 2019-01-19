@@ -17,8 +17,10 @@ class NewsViewHolder private constructor(itemView: View, listener: BaseOnClickLi
     }
 
     override fun bind(item: Any) {
-        super.item = item as NewsItem
-        itemView.tv_ranking.text = item.rank.toString()
-        itemView.tv_name.text = item.name
+        if (item is NewsItem) {
+            super.item = item
+            itemView.tv_ranking.text = item.rank.toString()
+            itemView.tv_name.text = item.name
+        }
     }
 }
