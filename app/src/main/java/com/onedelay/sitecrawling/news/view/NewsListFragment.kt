@@ -16,24 +16,21 @@ import com.onedelay.sitecrawling.news.presenter.NewsListPresenter
 import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
 import com.onedelay.sitecrawling.news.view.adapters.NewsListAdapter
 import kotlinx.android.synthetic.main.fragment_news.*
-import kotlinx.android.synthetic.main.fragment_news.view.*
 
 class NewsListFragment : Fragment(), BaseOnClickListener, ServerContract.View {
     private val adapter = NewsListAdapter(this)
 
-    private lateinit var rootView: View
-
     private lateinit var newsListPresenter: NewsListPresenter
 
     companion object {
-        private const val PORTAL = "portal"
-        private const val CATEGORY = "category"
+        private const val ARGUMENT_PORTAL = "portal"
+        private const val ARGUMENT_CATEGORY = "category"
 
         fun newInstance(sectionCategory: String, portal: String): NewsListFragment {
             val fragment = NewsListFragment()
             val args = Bundle()
-            args.putString(CATEGORY, sectionCategory)
-            args.putString(PORTAL, portal)
+            args.putString(ARGUMENT_CATEGORY, sectionCategory)
+            args.putString(ARGUMENT_PORTAL, portal)
             fragment.arguments = args
             return fragment
         }
@@ -41,27 +38,28 @@ class NewsListFragment : Fragment(), BaseOnClickListener, ServerContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        rootView = inflater.inflate(R.layout.fragment_news, container, false)
+        return inflater.inflate(R.layout.fragment_news, container, false)
+    }
 
-        rootView.recyclerView.setHasFixedSize(true)
-        rootView.recyclerView.layoutManager = LinearLayoutManager(context)
-        rootView.recyclerView.adapter = adapter
-        rootView.recyclerView.addItemDecoration(DividerItemDecoration(context!!))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(DividerItemDecoration(context!!))
+        registerForContextMenu(recyclerView)
 
-        registerForContextMenu(rootView.recyclerView)
+        progress_bar.visibility = View.VISIBLE
 
-        rootView.progress_bar.visibility = View.VISIBLE
-
-        newsListPresenter = NewsListPresenter(this, arguments!!.getString(PORTAL), arguments!!.getString(CATEGORY))
+        val portal = arguments?.getString(ARGUMENT_PORTAL) ?: ""
+        val category = arguments?.getString(ARGUMENT_CATEGORY) ?: ""
+        newsListPresenter = NewsListPresenter(this, portal, category)
 
         // 새로고침 시 크롤링 시작
-        rootView.swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener {
             newsListPresenter.requestServer()
         }
 
         newsListPresenter.requestServer()
-
-        return rootView
     }
 
     override fun receiveList(items: List<NewsItem>?) {
@@ -70,7 +68,7 @@ class NewsListFragment : Fragment(), BaseOnClickListener, ServerContract.View {
 
     override fun hideProgress() {
         progress_bar?.visibility = View.GONE
-        rootView.swipeRefreshLayout.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showError() {

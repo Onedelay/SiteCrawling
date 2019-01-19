@@ -15,8 +15,10 @@ class IssueViewHolder private constructor(itemView: View, listener: BaseOnClickL
     }
 
     override fun bind(item: Any) {
-        super.item = item as IssueItem
-        tv_ranking.text = item.rank.toString()
-        tv_name.text = item.name
+        if (item is IssueItem) {
+            super.item = item
+            tv_ranking.text = item.rank.toString()
+            tv_name.text = item.name
+        }
     }
 }

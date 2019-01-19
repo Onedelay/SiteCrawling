@@ -36,23 +36,6 @@ class HomeActivity : AppCompatActivity(), BaseOnClickListener, ServerContract.Is
         presenter.requestDaumIssue()
     }
 
-    private fun putDummy() {
-        daumAdapter.setItems(listOf(
-                IssueItem(1, "홍태준", "https://www.naver.com"),
-                IssueItem(2, "홍태준", "https://www.naver.com"),
-                IssueItem(3, "홍태준", "https://www.naver.com"),
-                IssueItem(4, "홍태준", "https://www.naver.com"),
-                IssueItem(5, "홍태준", "https://www.naver.com"),
-                IssueItem(6, "홍태준", "https://www.naver.com")
-        ))
-        naverAdapter.setItems(listOf(
-                IssueItem(1, "원지연", "https://www.naver.com"),
-                IssueItem(1, "홍태준", "https://www.naver.com"),
-                IssueItem(1, "홍태준", "https://www.naver.com"),
-                IssueItem(1, "홍태준", "https://www.naver.com")
-        ))
-    }
-
     private fun initList() {
         list_daum_issue.apply {
             setHasFixedSize(true)
