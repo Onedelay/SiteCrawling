@@ -18,12 +18,14 @@ class TopNewsViewHolder private constructor(itemView: View, listener: BaseOnClic
     }
 
     override fun bind(item: Any) {
-        super.item = item as NewsItem
-        Picasso.get() // 임시 이미지
-                .load(item.img)
-                .into(itemView.top_imageView)
-        itemView.tv_top_ranking.text = item.rank.toString()
-        itemView.tv_top_name.text = item.name
-        itemView.tv_top_content.text = item.content
+        if (item is NewsItem) {
+            super.item = item
+            Picasso.get() // 임시 이미지
+                    .load(item.img)
+                    .into(itemView.top_imageView)
+            itemView.tv_top_ranking.text = item.rank.toString()
+            itemView.tv_top_name.text = item.name
+            itemView.tv_top_content.text = item.content
+        }
     }
 }
