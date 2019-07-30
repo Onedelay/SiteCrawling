@@ -1,6 +1,7 @@
 package com.onedelay.sitecrawling.news.presenter
 
 import android.util.Log
+import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.news.contract.ServerContract
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.model.RetrofitService

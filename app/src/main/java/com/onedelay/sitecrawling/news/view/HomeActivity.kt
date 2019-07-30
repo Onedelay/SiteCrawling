@@ -5,7 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
+import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
 import com.onedelay.sitecrawling.news.contract.ServerContract
 import com.onedelay.sitecrawling.news.model.IssueItem
@@ -31,9 +33,20 @@ class HomeActivity : AppCompatActivity(), BaseOnClickListener, ServerContract.Is
         }
 
         //putDummy()
-        // TODO : ProgressBar 어떻게 띄울지 고민해보기
         presenter.requestNaverIssue()
         presenter.requestDaumIssue()
+
+        setRepresh()
+    }
+
+    private fun setRepresh() {
+        naver.setOnRefreshListener {
+            presenter.requestNaverIssue()
+        }
+
+        daum.setOnRefreshListener {
+            presenter.requestDaumIssue()
+        }
     }
 
     private fun initList() {
@@ -66,6 +79,13 @@ class HomeActivity : AppCompatActivity(), BaseOnClickListener, ServerContract.Is
 
     override fun showError() {
         Toast.makeText(baseContext, "서버 통신 오류", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun hideProgress(type: String) {
+        if (type == Constants.NAVER) progress_naver.visibility = View.GONE
+        if (type == Constants.DAUM) progress_daum.visibility = View.GONE
+        naver.isRefreshing = false
+        daum.isRefreshing = false
     }
 
     override fun onClick(data: Any?) {

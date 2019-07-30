@@ -11,20 +11,20 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:text="@string/str_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:text="@string/str_guide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo_" />
 
     <ImageView
         android:id="@+id/iv_naver_logo"
@@ -41,38 +41,68 @@
         android:layout_width="5dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.5" />
 
     <ImageView
         android:id="@+id/iv_daum_logo"
         android:layout_width="108dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintTop_toTopOf="@id/iv_naver_logo"
         app:srcCompat="@drawable/daum_logo" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_naver_issue"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_naver_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"/>
+    <ProgressBar
+        android:id="@+id/progress_naver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/iv_naver_logo"
+        app:layout_constraintBottom_toBottomOf="@+id/naver"
+        app:layout_constraintStart_toStartOf="@+id/naver"
+        app:layout_constraintEnd_toEndOf="@+id/naver" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_daum_issue"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/naver"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="5dp"
         android:layout_margin="5dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_daum_logo"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/list_naver_issue"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_naver_logo">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_naver_issue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_daum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/iv_daum_logo"
+        app:layout_constraintBottom_toBottomOf="@+id/daum"
+        app:layout_constraintStart_toStartOf="@+id/daum"
+        app:layout_constraintEnd_toEndOf="@+id/daum" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/daum"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/naver"
+        app:layout_constraintTop_toBottomOf="@id/iv_daum_logo">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_daum_issue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

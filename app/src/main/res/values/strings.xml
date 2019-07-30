@@ -12,4 +12,6 @@
     <string name="temp_news_content">첫번째 기사 내용입니다. 첫번째 기사 내용입니다. 내용이다. 내용이다...</string>
     <string name="str_share">공유하기</string>
     <string name="str_guide">뉴스를 보러가려면 아래 배너 클릭</string>
+    <string name="appwidget_text">Site crawling</string>
+    <string name="add_widget">Add widget</string>
 </resources>
