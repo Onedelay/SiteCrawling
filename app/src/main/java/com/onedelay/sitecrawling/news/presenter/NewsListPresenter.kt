@@ -5,43 +5,42 @@ import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.news.contract.ServerContract
 import com.onedelay.sitecrawling.news.model.NewsItem
 import com.onedelay.sitecrawling.news.model.RetrofitService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.onedelay.sitecrawling.util.addTo
+import com.onedelay.sitecrawling.util.onMainThread
+import com.onedelay.sitecrawling.util.onNetwork
+import io.reactivex.disposables.CompositeDisposable
 
 class NewsListPresenter(private val newsListView: ServerContract.View,
                         private var portal: String,
                         private var category: String) : ServerContract.UserActions {
+    private val retrofitService = RetrofitService.create()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun requestServer() {
         if (portal == Constants.NAVER) {
-            RetrofitService.create().getNaverNews(category).enqueue(object : Callback<List<NewsItem>> {
-                override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
-                    Log.d("SERVER_TEST", t.message)
-                    newsListView.showError()
-                    newsListView.hideProgress()
-                }
-
-                override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
-                    val body = response.body()
-                    newsListView.receiveList(body)
-                    newsListView.hideProgress()
-                }
-            })
+            retrofitService.getNaverNews(category)
+                    .onNetwork()
+                    .onMainThread()
+                    .subscribe({
+                        newsListView.receiveList(it)
+                        newsListView.hideProgress()
+                    }, {
+                        Log.d("SERVER_TEST", it.message)
+                        newsListView.showError()
+                        newsListView.hideProgress()
+                    }).addTo(compositeDisposable)
         } else {
-            RetrofitService.create().getDaumNews(category).enqueue(object : Callback<List<NewsItem>> {
-                override fun onFailure(call: Call<List<NewsItem>>, t: Throwable) {
-                    Log.d("SERVER_TEST", t.message)
-                    newsListView.showError()
-                    newsListView.hideProgress()
-                }
-
-                override fun onResponse(call: Call<List<NewsItem>>, response: Response<List<NewsItem>>) {
-                    val body = response.body()
-                    newsListView.receiveList(body)
-                    newsListView.hideProgress()
-                }
-            })
+            retrofitService.getDaumNews(category)
+                    .onNetwork()
+                    .onMainThread()
+                    .subscribe({
+                        newsListView.receiveList(it)
+                        newsListView.hideProgress()
+                    }, {
+                        Log.d("SERVER_TEST", it.message)
+                        newsListView.showError()
+                        newsListView.hideProgress()
+                    }).addTo(compositeDisposable)
         }
     }
 
