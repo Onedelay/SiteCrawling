@@ -10,10 +10,11 @@ import android.widget.Toast
 import com.onedelay.sitecrawling.Constants
 import com.onedelay.sitecrawling.R
 import com.onedelay.sitecrawling.news.contract.ServerContract
-import com.onedelay.sitecrawling.news.model.IssueItem
+import com.onedelay.sitecrawling.news.model.entity.IssueItem
 import com.onedelay.sitecrawling.news.presenter.IssueListPresenter
 import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
 import com.onedelay.sitecrawling.news.view.adapters.IssueListAdapter
+import com.onedelay.sitecrawling.weekly.AndroidWeeklyActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity(), BaseOnClickListener, ServerContract.IssueView {
@@ -30,6 +31,10 @@ class HomeActivity : AppCompatActivity(), BaseOnClickListener, ServerContract.Is
 
         logo.setOnClickListener {
             startActivity(Intent(this, NewsActivity::class.java))
+        }
+
+        tv_android_weekly.setOnClickListener {
+            startActivity(Intent(this, AndroidWeeklyActivity::class.java))
         }
 
         //putDummy()

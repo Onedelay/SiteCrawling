@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".image.MainActivity" />
+        <activity android:name=".weekly.AndroidWeeklyActivity"></activity>
         <activity
             android:name=".news.view.NewsActivity"
             android:label="@string/title_activity_news"
@@ -24,17 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver android:name=".news.widget.IssueAppWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/issue_app_widget_info" />
-        </receiver>
-        <service android:name=".news.widget.IssueRemoteViewsService" />
     </application>
 
 </manifest>

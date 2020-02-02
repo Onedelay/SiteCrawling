@@ -14,4 +14,5 @@
     <string name="str_guide">뉴스를 보러가려면 아래 배너 클릭</string>
     <string name="appwidget_text">Site crawling</string>
     <string name="add_widget">Add widget</string>
+    <string name="string_message_go_to_weekly">Go to Android weekly</string>
 </resources>

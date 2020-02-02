@@ -9,13 +9,16 @@
     <!-- 이 사이트 참고해서 레이아웃 바꿔보기(코디네이터 레이아웃 연습)
     http://readme.skplanet.com/?p=11463 -->
 
-    <TextView
-        android:id="@+id/tv_title"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_android_weekly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/str_guide"
+        android:background="@android:color/holo_orange_light"
+        android:text="@string/string_message_go_to_weekly"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/logo"
@@ -23,7 +26,7 @@
         android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_android_weekly"
         app:srcCompat="@drawable/logo_" />
 
     <ImageView
@@ -57,10 +60,10 @@
         android:id="@+id/progress_naver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/iv_naver_logo"
         app:layout_constraintBottom_toBottomOf="@+id/naver"
+        app:layout_constraintEnd_toEndOf="@+id/naver"
         app:layout_constraintStart_toStartOf="@+id/naver"
-        app:layout_constraintEnd_toEndOf="@+id/naver" />
+        app:layout_constraintTop_toTopOf="@+id/iv_naver_logo" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/naver"
@@ -83,10 +86,10 @@
         android:id="@+id/progress_daum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/iv_daum_logo"
         app:layout_constraintBottom_toBottomOf="@+id/daum"
+        app:layout_constraintEnd_toEndOf="@+id/daum"
         app:layout_constraintStart_toStartOf="@+id/daum"
-        app:layout_constraintEnd_toEndOf="@+id/daum" />
+        app:layout_constraintTop_toTopOf="@+id/iv_daum_logo" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/daum"

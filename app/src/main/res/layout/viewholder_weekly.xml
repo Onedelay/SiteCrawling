@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_weekly_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/temp_news_name"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_weekly_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:padding="5dp"
+        android:text="@string/temp_news_name"
+        android:textSize="13sp" />
+
+</android.support.v7.widget.LinearLayoutCompat>

@@ -1,6 +1,6 @@
 package com.onedelay.sitecrawling
 
-import com.onedelay.sitecrawling.news.model.NewsItem
+import com.onedelay.sitecrawling.news.model.entity.NewsItem
 import org.jsoup.Jsoup
 import org.junit.Test
 import java.io.IOException

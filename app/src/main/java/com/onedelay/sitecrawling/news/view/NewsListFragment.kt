@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.onedelay.sitecrawling.R
 import com.onedelay.sitecrawling.news.contract.ServerContract
-import com.onedelay.sitecrawling.news.model.NewsItem
+import com.onedelay.sitecrawling.news.model.entity.NewsItem
 import com.onedelay.sitecrawling.news.presenter.NewsListPresenter
 import com.onedelay.sitecrawling.news.utils.DividerItemDecoration
 import com.onedelay.sitecrawling.news.view.adapters.NewsListAdapter

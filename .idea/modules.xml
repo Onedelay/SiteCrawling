@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Site crawling.iml" filepath="$PROJECT_DIR$/Site crawling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Site crawling-app.iml" filepath="$PROJECT_DIR$/app/Site crawling-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/SiteCrawling.iml" filepath="$PROJECT_DIR$/SiteCrawling.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

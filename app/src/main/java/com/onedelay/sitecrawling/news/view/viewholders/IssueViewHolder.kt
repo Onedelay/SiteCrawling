@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.onedelay.sitecrawling.R
-import com.onedelay.sitecrawling.news.model.IssueItem
+import com.onedelay.sitecrawling.news.model.entity.IssueItem
 import com.onedelay.sitecrawling.news.view.BaseOnClickListener
 import kotlinx.android.synthetic.main.viewholder_news.*
 
