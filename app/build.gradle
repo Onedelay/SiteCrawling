@@ -24,6 +24,8 @@ android {
     androidExtensions {
         experimental = true
     }
+
+    lintOptions { abortOnError false }
 }
 
 final def RETROFIT_VERSION = '2.4.0'
