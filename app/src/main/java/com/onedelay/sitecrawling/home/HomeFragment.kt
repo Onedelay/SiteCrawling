@@ -68,11 +68,11 @@ class HomeFragment : Fragment(), BaseOnClickListener, IssueContract.View {
     }
 
     override fun showProgress() {
-        fl_progress_area.visibility = View.VISIBLE
+        fl_progress_area?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        fl_progress_area.visibility = View.GONE
+        fl_progress_area?.visibility = View.GONE
     }
 
     private fun initializeViews() {

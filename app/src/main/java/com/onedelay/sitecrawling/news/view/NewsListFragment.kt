@@ -54,11 +54,11 @@ class NewsListFragment : Fragment(), BaseOnClickListener, NewsContract.View {
     }
 
     override fun showProgress() {
-        fl_progress_area.visibility = View.VISIBLE
+        fl_progress_area?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        fl_progress_area.visibility = View.GONE
+        fl_progress_area?.visibility = View.GONE
     }
 
     override fun showError(message: String) {
