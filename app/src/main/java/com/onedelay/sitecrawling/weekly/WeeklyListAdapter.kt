@@ -1,12 +1,12 @@
 package com.onedelay.sitecrawling.weekly
 
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.onedelay.sitecrawling.R
-import com.onedelay.sitecrawling.news.model.entity.WeeklyItem
+import com.onedelay.sitecrawling.data.model.entity.WeeklyItem
 import kotlinx.android.synthetic.main.viewholder_weekly.view.*
 
 

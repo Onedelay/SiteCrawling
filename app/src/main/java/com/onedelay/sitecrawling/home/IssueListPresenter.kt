@@ -1,35 +1,34 @@
-package com.onedelay.sitecrawling.weekly
+package com.onedelay.sitecrawling.home
 
+import android.util.Log
 import com.onedelay.sitecrawling.data.source.RetrofitService
-import com.onedelay.sitecrawling.data.model.entity.WeeklyItem
+import com.onedelay.sitecrawling.data.model.entity.IssueItem
 import com.onedelay.sitecrawling.util.addTo
 import com.onedelay.sitecrawling.util.onMainThread
 import com.onedelay.sitecrawling.util.onNetwork
 import io.reactivex.disposables.CompositeDisposable
 
-
-internal class AndroidWeeklyPresenter constructor(
-        private val view: AndroidWeeklyContract.View,
+class IssueListPresenter(
+        private val view: IssueContract.View,
         private val retrofitService: RetrofitService = RetrofitService.create(),
         private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-) : AndroidWeeklyContract.UserAction {
+) : IssueContract.Actions {
 
-    override fun requestAndroidWeekly() {
+    override fun requestNaverIssue() {
         view.showProgress()
-
-        retrofitService.getAndroidWeekly()
+        retrofitService.getNaverIssue()
                 .onNetwork()
                 .onMainThread()
                 .subscribe({
-                    view.receiveList(it)
                     view.hideProgress()
+                    view.receiveNaverIssue(it)
                 }, {
+                    Log.d("SERVER_TEST", it.message ?: "")
                     view.showError(it.message ?: "")
-                    view.hideProgress()
                 }).addTo(compositeDisposable)
     }
 
-    override fun clickWeeklyItem(item: WeeklyItem) {
+    override fun clickItem(item: IssueItem) {
         view.openNewBrowser(item.url)
     }
 

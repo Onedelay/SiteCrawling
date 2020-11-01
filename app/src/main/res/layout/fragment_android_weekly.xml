@@ -6,10 +6,9 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_news_list"
+        android:id="@+id/rv_weekly_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,11 +18,12 @@
         android:id="@+id/fl_progress_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp"
-        tools:visibility="visible">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
-            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />

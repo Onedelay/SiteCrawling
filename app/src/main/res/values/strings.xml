@@ -7,12 +7,14 @@
     <string name="daum">Daum 기사보기</string>
     <string name="naver">Naver 기사보기</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="temp_ranking">1</string>
-    <string name="temp_news_name">첫번째 기사입니다.</string>
-    <string name="temp_news_content">첫번째 기사 내용입니다. 첫번째 기사 내용입니다. 내용이다. 내용이다...</string>
     <string name="str_share">공유하기</string>
-    <string name="str_guide">뉴스를 보러가려면 아래 배너 클릭</string>
     <string name="appwidget_text">Site crawling</string>
     <string name="add_widget">Add widget</string>
     <string name="string_message_go_to_weekly">Go to Android weekly</string>
+    <string name="textview_title_naver_hot_issue">네이버 실시간 검색 순위</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_bottom_title_news">NEWS</string>
+    <string name="menu_bottom_title_home">HOME</string>
+    <string name="menu_bottom_title_weekly">WEEKLY</string>
 </resources>

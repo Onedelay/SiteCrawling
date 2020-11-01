@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/news_fragment"
+        android:title="@string/menu_bottom_title_news" />
+    <item
+        android:id="@id/home_fragment"
+        android:title="@string/menu_bottom_title_home" />
+    <item
+        android:id="@id/android_weekly_fragment"
+        android:title="@string/menu_bottom_title_weekly" />
+</menu>

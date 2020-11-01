@@ -11,12 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".weekly.AndroidWeeklyActivity"></activity>
+        <activity android:name=".weekly.AndroidWeeklyFragment"></activity>
         <activity
             android:name=".news.view.NewsActivity"
             android:label="@string/title_activity_news"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".news.view.HomeActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
