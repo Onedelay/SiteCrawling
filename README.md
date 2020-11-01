@@ -15,15 +15,15 @@
 ### 크롤링 목록
 
 - 네이버 실시간 검색어(홈화면)
-<p align="center"><img src="/Screenshot_naver_issue.png"></p>
+<p align="center"><img src="/Screenshot_naver_issue.png" width="320" height="600"></p>
 <br>
 
 - 다음 뉴스
   - 네이버도 있지만, 아직 포털 교체하는걸 추가하지 않았음
-<p align="center"><img src="/Screenshot_daum_news.png"></p>
+<p align="center"><img src="/Screenshot_daum_news.png" width="320" height="600"></p>
 <br>
 
 - Android weekly
-<p align="center"><img src="/Screenshot_weekly.png"></p>
+<p align="center"><img src="/Screenshot_weekly.png" width="320" height="600"></p>
 <br>
 
